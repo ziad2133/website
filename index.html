@@ -4,102 +4,132 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Coming Soon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    * {
-      box-sizing: border-box;
+    html, body {
       margin: 0;
       padding: 0;
-    }
-
-    body {
-      background-color: #0f0f0f;
-      font-family: 'Poppins', sans-serif;
+      background: black;
       overflow: hidden;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #fff;
-      position: relative;
-      user-select: none;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      font-weight: 600;
-      color: #ffffff;
-      text-shadow: 
-        0 0 2px #ffffff,
-        0 0 4px #cccccc,
-        0 0 6px #999999;
-      z-index: 1;
-    }
-
-    p {
-      font-size: 1.2rem;
-      opacity: 0.8;
-      z-index: 1;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      p {
-        font-size: 1rem;
-      }
-    }
-
-    /* Dot Grid */
-    .dot-grid {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
       height: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 30px);
-      grid-template-rows: repeat(auto-fill, 30px);
+      font-family: Arial, sans-serif;
+    }
+
+    .vignette {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       pointer-events: none;
-      z-index: 0;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.6) 100%);
+      z-index: 3;
+    }
+
+    .grid {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 15px);
+      grid-template-rows: repeat(auto-fill, 15px);
+      pointer-events: none;
+      z-index: 1;
+      filter: blur(1.2px);
     }
 
     .dot {
-      width: 6px;
-      height: 6px;
-      background-color: #ffffff;
-      opacity: 0.08;
+      width: 2.5px;
+      height: 2.5px;
+      background: white;
       border-radius: 50%;
-      justify-self: center;
-      align-self: center;
+      opacity: 0.2;
+      margin: auto;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      text-align: center;
+    }
+
+    .coming-soon, .subtext, .button {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .coming-soon {
+      font-size: 4rem;
+      color: white;
+      text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.4),
+        0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 30px rgba(255, 255, 255, 0.2),
+        0 0 40px rgba(255, 255, 255, 0.1);
+    }
+
+    .subtext {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.2rem;
+      margin-top: 10px;
+      animation-delay: 1s;
+    }
+
+    .button {
+      margin-top: 25px;
+      padding: 12px 26px;
+      font-size: 1rem;
+      color: white;
+      background: transparent;
+      border: 1px solid white;
+      border-radius: 6px;
+      cursor: pointer;
+      animation-delay: 2s;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease-in-out;
+      text-decoration: none; /* Remove the underline */
+    }
+
+    .button:hover {
+      background: white;
+      color: black;
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <!-- Dot Grid -->
-  <div class="dot-grid">
-    <script>
-      const grid = document.querySelector('.dot-grid');
-      const cols = Math.floor(window.innerWidth / 30);
-      const rows = Math.floor(window.innerHeight / 30);
-      const totalDots = cols * rows;
 
-      for (let i = 0; i < totalDots; i++) {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        grid.appendChild(dot);
-      }
-    </script>
+  <div class="grid" id="dotGrid"></div>
+  <div class="vignette"></div>
+
+  <div class="container">
+    <div class="coming-soon">Coming Soon...</div>
+    <div class="subtext">Lunark Media website under construction</div>
+    <a href="https://calendly.com/YOUR-CALL-LINK" class="button">Book a Call</a>
   </div>
 
-  <!-- Content -->
-  <div>
-    <h1>Coming Soon...</h1>
-    <p>Lunark Media website under construction</p>
-  </div>
+  <script>
+    const grid = document.getElementById('dotGrid');
+    const cols = Math.floor(window.innerWidth / 15);
+    const rows = Math.floor(window.innerHeight / 15);
+    for(let i = 0; i < cols * rows; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      grid.appendChild(dot);
+    }
+
+    window.onload = () => {
+      document.querySelectorAll('.coming-soon, .subtext, .button').forEach(el => {
+        el.style.animationDelay = '0s';
+      });
+    };
+  </script>
+
 </body>
 </html>
